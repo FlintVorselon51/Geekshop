@@ -58,10 +58,7 @@
                     <div class="card h-100">
                         <a href="#">
                             <img class="card-img-top"
-                                 src="
-                                 {% with product.path_to_img as image_static %}
-                                    {% static image_static %}
-                                 {% endwith %}"
+                                 src="/media/{{ product.image }}"
                                  alt="">
                         </a>
                         <div class="card-body">
