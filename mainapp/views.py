@@ -1,17 +1,17 @@
-import json
 from django.shortcuts import render
 
-
-def json_to_context(path):
-    with open(path, encoding='utf-8') as json_file:
-        return json.load(json_file)
+from .models import ProductCategory, Product
 
 
 def index(request):
-    context = json_to_context('mainapp/fixtures/index_context.json')
+    context = {'title': 'Geekshop'}
     return render(request, 'mainapp/index.html', context)
 
 
 def products(request):
-    context = json_to_context('mainapp/fixtures/products_context.json')
+    context = {
+        'title': 'Каталог',
+        'products': Product.objects.all(),
+        'categories': ProductCategory.objects.all(),
+    }
     return render(request, 'mainapp/products.html', context)

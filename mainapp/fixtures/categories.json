@@ -1,0 +1,42 @@
+[
+  {
+    "model": "mainapp.productcategory",
+    "pk": 1,
+    "fields": {
+      "name": "Новинки",
+      "description": "Новая одежда"
+    }
+  },
+  {
+    "model": "mainapp.productcategory",
+    "pk": 2,
+    "fields": {
+      "name": "Одежда",
+      "description": "Здесь будет вся одежда"
+    }
+  },
+  {
+    "model": "mainapp.productcategory",
+    "pk": 3,
+    "fields": {
+      "name": "Обувь",
+      "description": "Лучшая обувь только на нашем сайте"
+    }
+  },
+  {
+    "model": "mainapp.productcategory",
+    "pk": 4,
+    "fields": {
+      "name": "Аксессуары",
+      "description": "Необходимый атрибут в жизни каждого из нас"
+    }
+  },
+  {
+    "model": "mainapp.productcategory",
+    "pk": 5,
+    "fields": {
+      "name": "Подарки",
+      "description": "Порадуйте себя и своих близких приятной вещью"
+    }
+  }
+]
