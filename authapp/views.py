@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponseRedirect
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
@@ -46,6 +46,7 @@ def profile(request):
         form = UserProfileForm(data=request.POST, files=request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Вы успешно зарегестрировались!')
             return HttpResponseRedirect(reverse('users:profile'))
         else:
             pass
