@@ -39,7 +39,7 @@
                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="{% static 'auth/profile.html' %}">{{ user.firstname|default:'Пользователь' }}
+                           href="{% url 'authapp:profile' %}">{{ user.firstname|default:'Пользователь' }}
                             <i class="fas fa-user-circle"></i>
                         </a>
                     </li>
