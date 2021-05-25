@@ -25,10 +25,11 @@ from mainapp.views import index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('admin-staff/', include('adminapp.urls', namespace='admin_staff')),
     path('', index, name='index'),
     path('products/', include('mainapp.urls', namespace='products')),
     path('users/', include('authapp.urls', namespace='users')),
-    path('basket/', include('basketapp.urls', namespace='basket'))
+    path('basket/', include('basketapp.urls', namespace='basket')),
 ]
 
 if settings.DEBUG:
