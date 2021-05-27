@@ -1,6 +1,8 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import user_passes_test
+from django.views.generic.list import ListView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from authapp.models import User
 from mainapp.models import ProductCategory
@@ -16,47 +18,29 @@ def index(request):
     return render(request, 'adminapp/admin.html')
 
 
-@user_passes_test(check_user)
-def users_read(request):
-    context = {'users': User.objects.all()}
-    return render(request, 'adminapp/admin-users-read.html', context)
+class UserListView(ListView):
+    model = User
+    template_name = 'adminapp/admin-users-read.html'
 
 
-@user_passes_test(check_user)
-def users_create(request):
-    if request.method == 'POST':
-        form = UserAdminForm(data=request.POST, files=request.FILES)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse_lazy('admin_staff:users_read'))
-    else:
-        form = UserAdminForm()
-    context = {'form': form}
-    return render(request, 'adminapp/admin-users-create.html', context)
+class UserCreateView(CreateView):
+    model = User
+    template_name = 'adminapp/admin-users-create.html'
+    form_class = UserAdminForm
+    success_url = reverse_lazy('adminapp:users_read')
 
 
-@user_passes_test(check_user)
-def users_update(request, user_id):
-    selected_user = User.objects.get(id=user_id)
-    if request.method == 'POST':
-        form = UserAdminForm(data=request.POST, files=request.FILES, instance=selected_user)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse_lazy('admin_staff:users_read'))
-        else:
-            print(form.errors)
-    else:
-        form = UserAdminForm(instance=selected_user)
-    context = {'form': form, 'selected_user': selected_user}
-    return render(request, 'adminapp/admin-users-update-delete.html', context)
+class UserUpdateView(UpdateView):
+    model = User
+    template_name = 'adminapp/admin-users-update-delete.html'
+    form_class = UserAdminForm
+    success_url = reverse_lazy('adminapp:users_read')
 
 
-@user_passes_test(check_user)
-def users_remove(request, user_id):
-    user = User.objects.get(id=user_id)
-    user.is_active = False
-    user.save()
-    return HttpResponseRedirect(reverse_lazy('admin_staff:users_read'))
+class UserDeleteView(DeleteView):
+    model = User
+    template_name = 'adminapp/admin-users-update-delete.html'
+    success_url = reverse_lazy('adminapp:users_read')
 
 
 @user_passes_test(check_user)
