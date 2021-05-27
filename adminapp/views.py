@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import user_passes_test
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.utils.decorators import method_decorator
 
 from authapp.models import User
 from mainapp.models import ProductCategory
@@ -22,12 +23,20 @@ class UserListView(ListView):
     model = User
     template_name = 'adminapp/admin-users-read.html'
 
+    @method_decorator(user_passes_test(check_user))
+    def dispatch(self, request, *args, **kwargs):
+        return super(UserListView, self).dispatch(request, *args, **kwargs)
+
 
 class UserCreateView(CreateView):
     model = User
     template_name = 'adminapp/admin-users-create.html'
     form_class = UserAdminForm
     success_url = reverse_lazy('adminapp:users_read')
+
+    @method_decorator(user_passes_test(check_user))
+    def dispatch(self, request, *args, **kwargs):
+        return super(UserCreateView, self).dispatch(request, *args, **kwargs)
 
 
 class UserUpdateView(UpdateView):
@@ -36,12 +45,60 @@ class UserUpdateView(UpdateView):
     form_class = UserAdminForm
     success_url = reverse_lazy('adminapp:users_read')
 
+    @method_decorator(user_passes_test(check_user))
+    def dispatch(self, request, *args, **kwargs):
+        return super(UserUpdateView, self).dispatch(request, *args, **kwargs)
+
 
 class UserDeleteView(DeleteView):
     model = User
     template_name = 'adminapp/admin-users-update-delete.html'
     success_url = reverse_lazy('adminapp:users_read')
 
+    @method_decorator(user_passes_test(check_user))
+    def dispatch(self, request, *args, **kwargs):
+        return super(UserDeleteView, self).dispatch(request, *args, **kwargs)
+
+
+class CategoryListView(ListView):
+    model = ProductCategory
+    template_name = 'adminapp/admin-categories-read.html'
+
+    @method_decorator(user_passes_test(check_user))
+    def dispatch(self, request, *args, **kwargs):
+        return super(CategoryListView, self).dispatch(request, *args, **kwargs)
+
+
+class CategoryCreateView(CreateView):
+    model = User
+    template_name = 'adminapp/admin-categories-create.html'
+    form_class = CategoryAdminForm
+    success_url = reverse_lazy('adminapp:categories_read')
+
+    @method_decorator(user_passes_test(check_user))
+    def dispatch(self, request, *args, **kwargs):
+        return super(CategoryCreateView, self).dispatch(request, *args, **kwargs)
+
+
+class CategoryUpdateView(UpdateView):
+    model = ProductCategory
+    template_name = 'adminapp/admin-categories-update-delete.html'
+    form_class = UserAdminForm
+    success_url = reverse_lazy('adminapp:categories_read')
+
+    @method_decorator(user_passes_test(check_user))
+    def dispatch(self, request, *args, **kwargs):
+        return super(CategoryUpdateView, self).dispatch(request, *args, **kwargs)
+
+
+class CategoryDeleteView(DeleteView):
+    model = User
+    template_name = 'adminapp/admin-users-update-delete.html'
+    success_url = reverse_lazy('adminapp:categories_read')
+
+    @method_decorator(user_passes_test(check_user))
+    def dispatch(self, request, *args, **kwargs):
+        return super(CategoryDeleteView, self).dispatch(request, *args, **kwargs)
 
 @user_passes_test(check_user)
 def categories_read(request):

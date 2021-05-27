@@ -1,9 +1,9 @@
 {% extends 'adminapp/base.html' %}
 
 {% block content %}
-    <h1 class="mt-4">Редактирование категории | {{ selected_category.name }}</h1>
+    <h1 class="mt-4">Редактирование категории | {{ category.name }}</h1>
     <div class="card-body">
-        <form action="{% url 'admin_staff:categories_update' selected_category.id %}" method="post"
+        <form action="{% url 'admin_staff:categories_update' category.id %}" method="post"
               enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-row">
@@ -28,7 +28,8 @@
         </form>
         <div class="row">
             <div class="col-lg-12" style="margin-top: 33px;">
-                <form action="">
+                <form action="{% url 'admin_staff:categories_remove' category.id %}" method="post">
+                    {% csrf_token %}
                     <input type="submit" value="Удалить" class="btn btn-danger btn-block">
                 </form>
             </div>
