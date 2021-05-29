@@ -1,10 +1,12 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.contrib import auth, messages
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import CreateView
 
 from .forms import UserLoginForm, UserRegisterForm, UserProfileForm
 from basketapp.models import Basket
+from authapp.models import User
 
 
 def login(request):
@@ -23,17 +25,11 @@ def login(request):
     return render(request, 'authapp/login.html', context=context)
 
 
-def register(request):
-    if request.method == 'POST':
-        form = UserRegisterForm(data=request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('users:login'))
-    else:
-        form = UserRegisterForm()
-
-    context = {'title': 'Geekshop - регистрация', 'form': form}
-    return render(request, 'authapp/register.html', context)
+class CreateUserView(CreateView):
+    model = User
+    template_name = 'authapp/register.html'
+    form_class = UserRegisterForm
+    success_url = reverse_lazy('users:login')
 
 
 def logout(request):
